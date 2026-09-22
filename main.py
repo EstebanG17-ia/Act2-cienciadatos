@@ -13,6 +13,9 @@ funcion = ""
 m = 0
 b = 0
 n = 0
+funcion_capturada = False
+muestras_capturadas = False
+
 
 while True:
 
@@ -26,31 +29,71 @@ while True:
 
     if opcion == "1":
 
-        funcion = input("\nEscribe la función lineal: ")
+        try:
+            funcion = input("\nEscribe la función lineal: ")
 
-        m, b = obtener_parametros(funcion)
+            m, b = obtener_parametros(funcion)
 
-        print("\nFunción capturada correctamente.")
-        print("Pendiente (m):", m)
-        print("Ordenada al origen (b):", b)
+            funcion_capturada = True
+
+            print("\nFunción capturada correctamente.")
+            print("Pendiente (m):", m)
+            print("Ordenada al origen (b):", b)
+
+        except ValueError:
+            print("\nError: escribe una función válida.")
+            print("Ejemplos: 2x + 3, -1.5x - 4, x + 5")
 
     elif opcion == "2":
 
-        n = int(input("\n¿Cuántas muestras deseas evaluar?: "))
+        try:
+            n = int(input("\n¿Cuántas muestras deseas evaluar?: "))
 
-        print("Número de muestras:", n)
+            if n <= 0:
+                print("El número de muestras debe ser mayor que 0.")
+            else:
+                muestras_capturadas = True
+                print("Número de muestras:", n)
+
+        except ValueError:
+            print("Error: debes escribir un número entero.")
 
     elif opcion == "3":
 
-        print("\nCaptura los valores de x:")
+        if not funcion_capturada:
+            print("\nPrimero debes capturar una función.")
 
-        for i in range(n):
+        elif not muestras_capturadas:
+            print("\nPrimero debes capturar el número de muestras.")
 
-            x = float(input("x" + str(i + 1) + ": "))
+        else:
 
-            y = evaluar_funcion(m, b, x)
+            resultados = []
 
-            print("x =", x, "y =", y)
+            print("\n========== RESULTADOS ==========")
+            print("m =", m)
+            print("b =", b)
+
+            for i in range(n):
+
+                try:
+                    x = float(input("Ingresa x" + str(i + 1) + ": "))
+
+                    y = evaluar_funcion(m, b, x)
+
+                    resultados.append((x, y))
+
+                except ValueError:
+                    print("Valor no válido. Intenta nuevamente.")
+                    continue
+
+            print("\nTabla de resultados")
+            print("-------------------------")
+            print("   x       y")
+            print("-------------------------")
+
+            for x, y in resultados:
+                print(" ", x, "   ", y)
 
     elif opcion == "4":
 
@@ -59,4 +102,4 @@ while True:
 
     else:
 
-        print("\nOpción no válida.")
+        print("\nOpción no válida. Selecciona del 1 al 4.")
