@@ -38,3 +38,12 @@ def obtener_parametros(funcion):
         b = float(parte_b)
 
     return m, b
+
+
+def evaluar_funcion(m, b, x):
+    """
+    Calcula el valor de y usando y = mx + b.
+    """
+
+    y = m * x + b
+    return y
